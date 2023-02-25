@@ -11,3 +11,8 @@ export type SquarePosition = {
     row: number,
     column: number
 }
+export type PossibleMoves = {
+    row: number,
+    column: number,
+    pawnFirstDoubleMove?: boolean
+}
