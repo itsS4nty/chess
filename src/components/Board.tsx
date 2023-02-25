@@ -108,8 +108,8 @@ const Board = () => {
     }
     
     const getPossibleMoves = (row: number, column: number) => {
-        const piece_type = pieces[`${row}-${column}`].type;
-        switch(piece_type) {
+        const { type } = pieces[`${row}-${column}`];
+        switch(type) {
             case PiecesEnum.PAWN:
                 return getPawnMoves(row, column);
             case PiecesEnum.KNIGHT:
