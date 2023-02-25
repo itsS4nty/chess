@@ -1,0 +1,1 @@
+export const getCalculationNumber = (value: number, negative: boolean) => negative ? -value : value;
