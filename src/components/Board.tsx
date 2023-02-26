@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { PiecesEnum } from '../enums/pieces';
 import { Turn } from '../enums/turn';
-import { PiecesType, PieceType, PossibleMoves } from '../types/piece';
+import { PiecesType, PieceType, PossibleMoves, PossibleMovesType } from '../types/piece';
 import { getCalculationNumber } from '../utils/chess';
 import Square from './Square';
 
@@ -17,39 +17,39 @@ const Board = () => {
 	const [totalRows] = useState(Array.from(Array(8).keys()));
 	const [totalColumns] = useState(Array.from(Array(8).keys()));
 	const [pieces, setPieces] = useState<PiecesType>({
-		'0-0': { color: Turn.BLACK, type: PiecesEnum.ROOK },
-		'0-1': { color: Turn.BLACK, type: PiecesEnum.KNIGHT },
-		'0-2': { color: Turn.BLACK, type: PiecesEnum.BISHOP },
-		'0-3': { color: Turn.BLACK, type: PiecesEnum.QUEEN },
-		'0-4': { color: Turn.BLACK, type: PiecesEnum.KING },
-		'0-5': { color: Turn.BLACK, type: PiecesEnum.BISHOP },
-		'0-6': { color: Turn.BLACK, type: PiecesEnum.KNIGHT },
-		'0-7': { color: Turn.BLACK, type: PiecesEnum.ROOK },
-		'1-0': { color: Turn.BLACK, type: PiecesEnum.PAWN },
-		'1-1': { color: Turn.BLACK, type: PiecesEnum.PAWN },
-		'1-2': { color: Turn.BLACK, type: PiecesEnum.PAWN },
-		'1-3': { color: Turn.BLACK, type: PiecesEnum.PAWN },
-		'1-4': { color: Turn.BLACK, type: PiecesEnum.PAWN },
-		'1-5': { color: Turn.BLACK, type: PiecesEnum.PAWN },
-		'1-6': { color: Turn.BLACK, type: PiecesEnum.PAWN },
-		'1-7': { color: Turn.BLACK, type: PiecesEnum.PAWN },
-		'6-0': { color: Turn.WHITE, type: PiecesEnum.PAWN },
-		'6-1': { color: Turn.WHITE, type: PiecesEnum.PAWN },
-		'6-2': { color: Turn.WHITE, type: PiecesEnum.PAWN },
-		'6-3': { color: Turn.WHITE, type: PiecesEnum.PAWN },
-		'6-4': { color: Turn.WHITE, type: PiecesEnum.PAWN },
-		'6-5': { color: Turn.WHITE, type: PiecesEnum.PAWN },
-		'6-6': { color: Turn.WHITE, type: PiecesEnum.PAWN },
-		'6-7': { color: Turn.WHITE, type: PiecesEnum.PAWN },
-		'7-0': { color: Turn.WHITE, type: PiecesEnum.ROOK },
-		'7-1': { color: Turn.WHITE, type: PiecesEnum.KNIGHT },
-		'7-2': { color: Turn.WHITE, type: PiecesEnum.BISHOP },
-		'7-3': { color: Turn.WHITE, type: PiecesEnum.QUEEN },
-		'7-4': { color: Turn.WHITE, type: PiecesEnum.KING },
-		'7-5': { color: Turn.WHITE, type: PiecesEnum.BISHOP },
-		'7-6': { color: Turn.WHITE, type: PiecesEnum.KNIGHT },
-		'7-7': { color: Turn.WHITE, type: PiecesEnum.ROOK },
-	});
+        '0-0': { row: 0, column: 0, color: Turn.BLACK, type: PiecesEnum.ROOK },
+        '0-1': { row: 0, column: 1, color: Turn.BLACK, type: PiecesEnum.KNIGHT },
+        '0-2': { row: 0, column: 2, color: Turn.BLACK, type: PiecesEnum.BISHOP },
+        '0-3': { row: 0, column: 3, color: Turn.BLACK, type: PiecesEnum.QUEEN },
+        '0-4': { row: 0, column: 4, color: Turn.BLACK, type: PiecesEnum.KING },
+        '0-5': { row: 0, column: 5, color: Turn.BLACK, type: PiecesEnum.BISHOP },
+        '0-6': { row: 0, column: 6, color: Turn.BLACK, type: PiecesEnum.KNIGHT },
+        '0-7': { row: 0, column: 7, color: Turn.BLACK, type: PiecesEnum.ROOK },
+        '1-0': { row: 1, column: 0, color: Turn.BLACK, type: PiecesEnum.PAWN },
+        '1-1': { row: 1, column: 1, color: Turn.BLACK, type: PiecesEnum.PAWN },
+        '1-2': { row: 1, column: 2, color: Turn.BLACK, type: PiecesEnum.PAWN },
+        '1-3': { row: 1, column: 3, color: Turn.BLACK, type: PiecesEnum.PAWN },
+        '1-4': { row: 1, column: 4, color: Turn.BLACK, type: PiecesEnum.PAWN },
+        '1-5': { row: 1, column: 5, color: Turn.BLACK, type: PiecesEnum.PAWN },
+        '1-6': { row: 1, column: 6, color: Turn.BLACK, type: PiecesEnum.PAWN },
+        '1-7': { row: 1, column: 7, color: Turn.BLACK, type: PiecesEnum.PAWN },
+        '6-0': { row: 6, column: 0, color: Turn.WHITE, type: PiecesEnum.PAWN },
+        '6-1': { row: 6, column: 1, color: Turn.WHITE, type: PiecesEnum.PAWN },
+        '6-2': { row: 6, column: 2, color: Turn.WHITE, type: PiecesEnum.PAWN },
+        '6-3': { row: 6, column: 3, color: Turn.WHITE, type: PiecesEnum.PAWN },
+        '6-4': { row: 6, column: 4, color: Turn.WHITE, type: PiecesEnum.PAWN },
+        '6-5': { row: 6, column: 5, color: Turn.WHITE, type: PiecesEnum.PAWN },
+        '6-6': { row: 6, column: 6, color: Turn.WHITE, type: PiecesEnum.PAWN },
+        '6-7': { row: 6, column: 7, color: Turn.WHITE, type: PiecesEnum.PAWN },
+        '7-0': { row: 7, column: 0, color: Turn.WHITE, type: PiecesEnum.ROOK },
+		'7-1': { row: 7, column: 1, color: Turn.WHITE, type: PiecesEnum.KNIGHT },
+        '7-2': { row: 7, column: 2, color: Turn.WHITE, type: PiecesEnum.BISHOP },
+        '7-3': { row: 7, column: 3, color: Turn.WHITE, type: PiecesEnum.QUEEN },
+        '7-4': { row: 7, column: 4, color: Turn.WHITE, type: PiecesEnum.KING },
+        '7-5': { row: 7, column: 5, color: Turn.WHITE, type: PiecesEnum.BISHOP },
+        '7-6': { row: 7, column: 6, color: Turn.WHITE, type: PiecesEnum.KNIGHT },
+        '7-7': { row: 7, column: 7, color: Turn.WHITE, type: PiecesEnum.ROOK }
+    });
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
     const [selectedColumn, setSelectedColumn] = useState<number | null>(null);
     const [turn, setTurn] = useState<Turn>(Turn.WHITE);
@@ -79,6 +79,8 @@ const Board = () => {
         const piece = getConcretePiece(row, column);
         if(!piece || !piece.isPossibleMove) return;
         newPieces[`${row}-${column}`] = pieces[`${selectedRow}-${selectedColumn}`];
+        newPieces[`${row}-${column}`].row = row;
+        newPieces[`${row}-${column}`].column = column;
 
         if(newPieces[`${selectedRow}-${selectedColumn}`].type === PiecesEnum.PAWN) {
             newPieces[`${row}-${column}`] = handlePawnMove(newPieces[`${selectedRow}-${selectedColumn}`], piece);
@@ -104,6 +106,8 @@ const Board = () => {
         setPieces(newPieces);
         setSelectedColumn(null);
         setSelectedRow(null);
+        isCheck(newPieces);
+        console.log(newPieces);
         handleTurns();
     }
     
@@ -111,22 +115,22 @@ const Board = () => {
         const { type } = pieces[`${row}-${column}`];
         switch(type) {
             case PiecesEnum.PAWN:
-                return getPawnMoves(row, column);
+                return getPawnMoves(row, column).moves;
             case PiecesEnum.KNIGHT:
-                return getKnightMoves(row, column);
+                return getKnightMoves(row, column).moves;
             case PiecesEnum.BISHOP:
-                return getBishopMoves(row, column);
+                return getBishopMoves(row, column).moves;
             case PiecesEnum.ROOK:
-                return getRookMoves(row, column);
+                return getRookMoves(row, column).moves;
             case PiecesEnum.QUEEN:
-                return getQueenMoves(row, column);
+                return getQueenMoves(row, column).moves;
             case PiecesEnum.KING:
-                return getKingMoves(row, column);
+                return getKingMoves(row, column).moves;
         }
     }
 
-    const getPawnMoves = (row: number, column: number): PossibleMoves[] => {
-        if(row === null || column === null) return [];
+    const getPawnMoves = (row: number, column: number): PossibleMovesType => {
+        if(row === null || column === null) return { piece: PiecesEnum.PAWN, moves: [] };
         const negative_numbers = turn === Turn.WHITE;
         let movements = [];
         let first_move = turn === Turn.WHITE ? row === 6 : row === 1;
@@ -134,27 +138,30 @@ const Board = () => {
         let piece = getConcretePiece(row+getCalculationNumber(2, negative_numbers), column);
 
         if(first_move && !piece)
-            movements.push({ row: row + getCalculationNumber(2, negative_numbers), column: column, pawnFirstDoubleMove: true });
+            movements.push({ row: row + getCalculationNumber(2, negative_numbers), column: column, pawnFirstDoubleMove: true , piece: PiecesEnum.PAWN});
         
         piece = getConcretePiece(row+getCalculationNumber(1, negative_numbers), column)       
         if(!piece)
-            movements.push({ row: row + getCalculationNumber(1, negative_numbers), column: column });
+            movements.push({ row: row + getCalculationNumber(1, negative_numbers), column: column , piece: PiecesEnum.PAWN});
 
         piece = getConcretePiece(row+getCalculationNumber(1, negative_numbers), column+getCalculationNumber(1, true));
         let special_piece = getConcretePiece(row, column+getCalculationNumber(1, true));
         if ((piece && piece.color !== turn) || (special_piece && special_piece.color !== turn && special_piece.pawnFirstDoubleMove))
-        movements.push({ row: row+getCalculationNumber(1, negative_numbers), column: column+getCalculationNumber(1, true)});
+        movements.push({ row: row+getCalculationNumber(1, negative_numbers), column: column+getCalculationNumber(1, true), piece: PiecesEnum.PAWN});
         
         piece = getConcretePiece(row+getCalculationNumber(1, negative_numbers), column+getCalculationNumber(1, false)) 
         special_piece = getConcretePiece(row, column+getCalculationNumber(1, false));    
         if((piece && piece.color !== turn) || (special_piece && special_piece.pawnFirstDoubleMove && special_piece.color !== turn))
-            movements.push({ row: row+getCalculationNumber(1, negative_numbers), column: column+getCalculationNumber(1, false)});
+            movements.push({ row: row+getCalculationNumber(1, negative_numbers), column: column+getCalculationNumber(1, false), piece: PiecesEnum.PAWN});
 
-        return movements;
+        return {
+            piece: PiecesEnum.PAWN,
+            moves: movements
+        };
     }
 
-    const getKnightMoves = (row: number, column: number): PossibleMoves[] => {
-        if(row === null || column === null) return [];
+    const getKnightMoves = (row: number, column: number): PossibleMovesType => {
+        if(row === null || column === null) return { piece: PiecesEnum.KNIGHT, moves: [] };
         const negative_numbers = turn === Turn.WHITE;
         let movements = [];
         let possible_moves = [
@@ -176,14 +183,17 @@ const Board = () => {
             
             let piece = getConcretePiece(row_calculation, column_calculation);
             if(!piece || piece.color !== turn)
-                movements.push({ row: row_calculation, column: column_calculation});
+                movements.push({ row: row_calculation, column: column_calculation, piece: PiecesEnum.KNIGHT });
         }
 
-        return movements;
+        return {
+            piece: PiecesEnum.KNIGHT,
+            moves: movements,
+        };
     }
 
-    const getBishopMoves = (row: number, column: number, limit_moves: number = 8): PossibleMoves[] => {
-        if(row === null || column === null) return [];
+    const getBishopMoves = (row: number, column: number, limit_moves: number = 8): PossibleMovesType => {
+        if(row === null || column === null) return { piece: PiecesEnum.BISHOP, moves: [] };
         let movements: PossibleMoves[] = [];
         let stop_up_right = false;
         let stop_up_left = false;
@@ -234,11 +244,14 @@ const Board = () => {
             if(piece_down_left && piece_down_left.color !== turn) stop_down_left = true;
         }
 
-        return movements;
+        return {
+            piece: PiecesEnum.BISHOP,
+            moves: movements,
+        };
     }
 
-    const getRookMoves = (row: number, column: number, limit_moves: number = 8): PossibleMoves[] => {
-        if(row === null || column === null) return [];
+    const getRookMoves = (row: number, column: number, limit_moves: number = 8): PossibleMovesType => {
+        if(row === null || column === null) return { piece: PiecesEnum.ROOK, moves: [] };
         let movements: PossibleMoves[] = [];
         let stop_right = false;
         let stop_left = false;
@@ -285,17 +298,53 @@ const Board = () => {
             if(piece_down_left && piece_down_left.color !== turn) stop_down = true;
         }
         
-        return movements;
+        return {
+            piece: PiecesEnum.ROOK,
+            moves: movements,
+        };
     }
 
-    const getQueenMoves = (row: number, column: number): PossibleMoves[] => {
-        if(row === null || column === null) return [];
-        return [getBishopMoves(row, column), getRookMoves(row, column)].flat();
+    const getQueenMoves = (row: number, column: number): PossibleMovesType => {
+        if(row === null || column === null) return { piece: PiecesEnum.QUEEN, moves: [] };
+        return {
+            piece: PiecesEnum.QUEEN,
+            moves: [getBishopMoves(row, column).moves, getRookMoves(row, column).moves].flat()
+        };
     }
 
-    const getKingMoves = (row: number, column: number): PossibleMoves[] => {
-        if(row === null || column === null) return [];
-        return [getBishopMoves(row, column, 2), getRookMoves(row, column, 2)].flat();
+    const getKingMoves = (row: number, column: number): PossibleMovesType => {
+        if(row === null || column === null) return { piece: PiecesEnum.KING, moves: [] };
+        return {
+            piece: PiecesEnum.KING,
+            moves: [getBishopMoves(row, column, 2).moves, getRookMoves(row, column, 2).moves].flat()
+        };
+    }
+
+    const isCheck = (_newPieces: PiecesType) => {
+        const king_obj = Object.entries(pieces).find(([, value]) => value.color !== turn && value.type === PiecesEnum.KING);
+        if(!king_obj) return;
+        const [, king] = king_obj;
+        console.log(_newPieces)
+        const possible_movements = getAllMovements(_newPieces);
+        if(!possible_movements.length) return;
+        const check = possible_movements.filter(m => m && m.row === king.row && m.column === king.column);
+        // console.log(check)
+    }
+
+    const getAllMovements = (_newPieces: PiecesType) => {
+        console.log(_newPieces)
+        let _pieces = Object.entries(_newPieces).map(([, value]) => {
+            if(value.color !== turn) return false;
+            return value;
+        }).filter(p => p);
+        if(!_pieces || !_pieces.length) return [];
+        let movements = [];
+        console.log(pieces)
+        for(let piece of _pieces) {
+            if(!piece || !piece.row || !piece.column) continue;
+            movements.push(getPossibleMoves(piece.row, piece.column))
+        }
+        return movements.flat().filter(m => m);
     }
 
     const handlePawnMove = (newPiece: PieceType, clickPiece: PieceType) => {

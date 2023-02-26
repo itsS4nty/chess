@@ -1,6 +1,10 @@
+import { PiecesEnum } from "../enums/pieces";
+
 type PieceColor = 'white' | 'black';
 type PieceTypeName = 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn' | 'bullet';
 export type PieceType = {
+    row?: number;
+    column?: number;
     color?: PieceColor;
     type?: PieceTypeName;
     isPossibleMove?: boolean;
@@ -16,3 +20,7 @@ export type PossibleMoves = {
     column: number,
     pawnFirstDoubleMove?: boolean
 }
+export type PossibleMovesType = {
+    piece: PiecesEnum,
+    moves: PossibleMoves[]
+};
