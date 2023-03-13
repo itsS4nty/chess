@@ -62,7 +62,7 @@ const Board = () => {
         // as it'll detects it as falsy
         let newPieces = {...pieces};
         if(selectedRow === null || selectedColumn === null) {
-            let possible_moves = getPossibleMoves(row, column);
+            let possible_moves = getPossibleMoves(row, column)?.moves;
             if(!possible_moves || !possible_moves.length) return;
             setSelectedRow(row);
             setSelectedColumn(column);
@@ -106,26 +106,25 @@ const Board = () => {
         setPieces(newPieces);
         setSelectedColumn(null);
         setSelectedRow(null);
-        isCheck(newPieces);
-        console.log(newPieces);
+        console.log(isCheck(newPieces));
         handleTurns();
     }
     
-    const getPossibleMoves = (row: number, column: number) => {
-        const { type } = pieces[`${row}-${column}`];
+    const getPossibleMoves = (row: number, column: number, new_pieces = null) => {
+        const { type } = new_pieces ? new_pieces[`${row}-${column}`] : pieces[`${row}-${column}`];
         switch(type) {
             case PiecesEnum.PAWN:
-                return getPawnMoves(row, column).moves;
+                return getPawnMoves(row, column);
             case PiecesEnum.KNIGHT:
-                return getKnightMoves(row, column).moves;
+                return getKnightMoves(row, column);
             case PiecesEnum.BISHOP:
-                return getBishopMoves(row, column).moves;
+                return getBishopMoves(row, column);
             case PiecesEnum.ROOK:
-                return getRookMoves(row, column).moves;
+                return getRookMoves(row, column);
             case PiecesEnum.QUEEN:
-                return getQueenMoves(row, column).moves;
+                return getQueenMoves(row, column);
             case PiecesEnum.KING:
-                return getKingMoves(row, column).moves;
+                return getKingMoves(row, column);
         }
     }
 
@@ -185,7 +184,6 @@ const Board = () => {
             if(!piece || piece.color !== turn)
                 movements.push({ row: row_calculation, column: column_calculation, piece: PiecesEnum.KNIGHT });
         }
-
         return {
             piece: PiecesEnum.KNIGHT,
             moves: movements,
@@ -324,27 +322,48 @@ const Board = () => {
         const king_obj = Object.entries(pieces).find(([, value]) => value.color !== turn && value.type === PiecesEnum.KING);
         if(!king_obj) return;
         const [, king] = king_obj;
-        console.log(_newPieces)
-        const possible_movements = getAllMovements(_newPieces);
-        if(!possible_movements.length) return;
-        const check = possible_movements.filter(m => m && m.row === king.row && m.column === king.column);
-        // console.log(check)
+        const movements = getAllMovements(_newPieces);
+        if(!movements.length) return;
+        let checks: any = [];
+        for(let move of movements) {
+            if(!move || !move.moves) continue;
+            if(move.moves.filter(m => m && m.row === king.row && m.column === king.column).length) {
+                checks.push({
+                    piece: move.piece,
+                    origin_row: move.origin_row,
+                    origin_column: move.origin_column
+                })
+            }
+        }
+        return {
+            check: checks.length > 0,
+            checks
+        }
     }
 
     const getAllMovements = (_newPieces: PiecesType) => {
-        console.log(_newPieces)
-        let _pieces = Object.entries(_newPieces).map(([, value]) => {
-            if(value.color !== turn) return false;
-            return value;
-        }).filter(p => p);
-        if(!_pieces || !_pieces.length) return [];
+        let _pieces = Object.entries(_newPieces).map(([key, value]) => {
+            if(value.color !== turn) return [false, false];
+            return [key, value];
+        }).filter(p => !p.includes(false));
+        const values = _pieces.map(u => u[1])
+        if(!values || !values.length) return [];
         let movements = [];
-        console.log(pieces)
-        for(let piece of _pieces) {
-            if(!piece || !piece.row || !piece.column) continue;
-            movements.push(getPossibleMoves(piece.row, piece.column))
+        for(let piece of values) {
+            piece = piece as PieceType;
+            //@ts-ignore
+            // if(!piece || !piece.row || !piece.column) continue;
+            //@ts-ignore
+            const moves = getPossibleMoves(piece.row, piece.column, _newPieces);
+            //@ts-ignore
+            movements.push({
+                piece: moves?.piece,
+                moves: moves?.moves,
+                origin_row: piece.row,
+                origin_column: piece.column
+            })
         }
-        return movements.flat().filter(m => m);
+        return movements;
     }
 
     const handlePawnMove = (newPiece: PieceType, clickPiece: PieceType) => {
