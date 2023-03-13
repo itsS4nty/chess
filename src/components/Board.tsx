@@ -106,7 +106,7 @@ const Board = () => {
         setPieces(newPieces);
         setSelectedColumn(null);
         setSelectedRow(null);
-        console.log(isCheck(newPieces));
+        isCheck(newPieces);
         handleTurns();
     }
     
